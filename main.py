@@ -47,5 +47,11 @@ def etf():
 if __name__ == '__main__':
     st.set_page_config('대시보드', '😭')
     tab1, tab2 = st.tabs(['채권', 'ETF'])
-    with tab1: bond()
-    with tab2: etf()
+    with tab1:
+        try:
+            bond()
+        except:
+            st.info('발빠진 쥐')
+
+    with tab2:
+        etf()
