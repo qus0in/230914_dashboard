@@ -1,6 +1,7 @@
 import requests
 import pandas as pd
 import FinanceDataReader as fdr
+import streamlit as st
 
 def get_bond_data():
     URL = 'https://www.shinhansec.com/siw/wealth-management/bond-rp/590401/data.do'
@@ -27,6 +28,7 @@ def get_bond_table():
         'not (신용도.str.contains("B") & not 신용도.str.contains("BBB"))'
     ).drop(columns=['거래금액']).reset_index(drop=True)
 
+@st.cache_data
 def get_universe_data():
     URL = 'https://finance.naver.com/api/sise/etfItemList.nhn'
     response = requests.get(URL, dict(etfType=0))
