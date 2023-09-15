@@ -35,7 +35,7 @@ def etf():
     with st.spinner('데이터 로딩 중...'):
         score = data.get_universe_score()
         table = score\
-            .query(f'점수 > {score.점수.quantile(.5)} & 점수 > 0')\
+            .query(f'점수 >= {score.점수.quantile(.5)} & 점수 > 0')\
             .sort_values('점수', ascending=False)
     table['유닛'] = (table.점수 * money / 5)\
         .apply(lambda x: int(x / 100000) * 100000)
