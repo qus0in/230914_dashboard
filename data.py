@@ -60,4 +60,4 @@ def get_score(code, risk=0.01):
          - concat(data.Low, data.Close.shift(1), min)
     aatr = tr.ewm(max(periods)).mean().iloc[-1] / close.iloc[-1]
     risk_control = min(1, risk / aatr)
-    return int(sum(scores) / len(periods) * risk_control * 100) / 100
+    return int(sum(scores) / len(periods) * risk_control * 1000) / 1000
