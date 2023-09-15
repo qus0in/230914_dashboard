@@ -32,9 +32,10 @@ def etf():
             min_value=0, step=1, value=80_000_000)
     with col2:
         pass
-    table = data.get_universe_score()\
-        .query('점수 > 0')\
-        .sort_values('점수', ascending=False)
+    with st.spinner('데이터 로딩 중...'):
+        table = data.get_universe_score()\
+            .query('점수 > 0')\
+            .sort_values('점수', ascending=False)
     table['유닛'] = (table.점수 * money / 5)\
         .apply(lambda x: int(x / 100000) * 100000)
     st.write(f'🧮 합계 : {format(table.유닛.sum(), ",")}원')
