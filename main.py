@@ -31,11 +31,11 @@ def etf():
         money = st.number_input('투자금 (원)',
             min_value=0, step=1, value=80_000_000)
     with col2:
-        pass
+        cnt = st.number_input('포함 종목 수', value=4, min_value=1, max_value=10)
     with st.spinner('데이터 로딩 중...'):
         score = data.get_universe_score()
         table = score\
-            .query(f'점수 >= {score.점수.quantile(.6)} & 점수 > 0')\
+            .query(f'점수 >= {score.점수.quantile((10 - cnt) / 10)} & 점수 > 0')\
             .sort_values('점수', ascending=False)
     table['유닛'] = (table.점수 * money / 5)\
         .apply(lambda x: int(x / 100000) * 100000)
