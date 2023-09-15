@@ -53,7 +53,7 @@ if __name__ == '__main__':
         try:
             bond()
         except:
-            st.info('발빠진 쥐')
+            st.info('발빠진 쥐 🐭')
 
     with tab2:
         etf()
