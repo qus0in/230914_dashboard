@@ -22,7 +22,7 @@ def bond():
     st.dataframe(table,
         use_container_width=True,
         hide_index=True,
-        height=210,
+        height=350,
     )
 
 def etf():
@@ -43,7 +43,7 @@ def etf():
     st.dataframe(table,
         use_container_width=True,
         hide_index=True,
-        height=210,
+        height=175,
     )
 
 if __name__ == '__main__':
