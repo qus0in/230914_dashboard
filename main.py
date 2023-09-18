@@ -9,8 +9,8 @@ def bond():
             value=5.5, step=0.1, min_value=0.0, max_value=20.0)
     with col2:
         expire = st.selectbox('기간', ['3년', 'ISA'])
-        if expire == '3년':
-            days = 365 * 3
+        if expire == '4년':
+            days = 365 * 4
             earn /= (1 - 0.154)
         if expire == 'ISA':
             days = (date(2024, 11, 9) - date.today()).days
