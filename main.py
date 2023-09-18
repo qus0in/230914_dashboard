@@ -44,7 +44,7 @@ def etf():
     st.dataframe(table,
         use_container_width=True,
         hide_index=True,
-        height=175,
+        height=350,
     )
 
 if __name__ == '__main__':
