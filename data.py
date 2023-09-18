@@ -51,7 +51,8 @@ def get_universe_score():
     return pd.DataFrame(data, columns=['종목코드', '이름', '점수'])
 
 def get_score(code, risk=0.01):
-    periods = [5, 8, 13, 21, 34]
+    # periods = [5, 8, 13, 21, 34]
+    periods = [8, 13, 21, 34, 55]
     data = fdr.DataReader(code)
     close = data.Close
     scores = [close.rolling(p).mean().iloc[-1] < close.iloc[-1] for p in periods]
