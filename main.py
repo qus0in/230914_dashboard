@@ -6,7 +6,7 @@ def bond():
     col1, col2 = st.columns(2)
     with col1:
         earn = st.number_input('기준수익률(%)',
-            value=5.5, step=0.1, min_value=0.0, max_value=20.0)
+            value=6, step=0.1, min_value=0.0, max_value=20.0)
     with col2:
         expire = st.selectbox('기간', ['5년', 'ISA'])
         if expire == '5년':
