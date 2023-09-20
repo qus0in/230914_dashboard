@@ -43,7 +43,7 @@ def etf():
             .sort_values('점수', ascending=False)
     table['유닛'] = (table.변동성.apply(lambda x: min(1, risk / x / 100)) * money / cnt)\
         .apply(lambda x: int(x / 100000) * 100000)
-    table['IN'] = table.점수 > table.head(5).iloc[-1].점수
+    table['IN'] = table.점수 > table.head(cnt).iloc[-1].점수
     st.write(f'🧮 합계 (TOP{cnt}) : {format(table.head(cnt).유닛.sum(), ",")}원')
     st.dataframe(table,
         use_container_width=True,
