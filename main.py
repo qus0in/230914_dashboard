@@ -27,24 +27,27 @@ def bond():
     )
 
 def etf():
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     with col1:
         money = st.number_input('투자금 (원)',
-            min_value=0, step=1, value=80_000_000)
+            min_value=0, step=1_000_000, value=39_000_000)
     with col2:
+        risk = st.number_input('리스크 조절 (%)', value=1.5, step=0.5, min_value=1.0, max_value=3.0)
+    with col3:
         cnt = st.number_input('포함 종목 수', value=4, min_value=1, max_value=10)
     with st.spinner('데이터 로딩 중...'):
         score = data.get_universe_score()
+        table = score.copy()
         table = score\
-            .query(f'점수 >= {score.점수.quantile((10 - cnt) / 10)} & 점수 > 0')\
+            .loc[score.점수 > score.query('종목코드 == "357870"').iloc[-1, 2]]\
             .sort_values('점수', ascending=False)
-    table['유닛'] = (table.점수 * money / 5)\
+    table['유닛'] = (table.변동성.apply(lambda x: min(1, risk / x / 100)) * money / cnt)\
         .apply(lambda x: int(x / 100000) * 100000)
-    st.write(f'🧮 합계 : {format(table.유닛.sum(), ",")}원')
+    st.write(f'🧮 합계 (TOP{cnt}) : {format(table.head(cnt).유닛.sum(), ",")}원')
     st.dataframe(table,
         use_container_width=True,
         hide_index=True,
-        height=350,
+        height=213,
     )
 
 if __name__ == '__main__':

@@ -45,20 +45,19 @@ def get_universe_table():
 def get_universe_score():
     names = get_universe_table()
     universe = ['139230', '455850', '091180', '455860', '244580',
-                '132030', '261220', '261240', '114800', '251340']
+                '132030', '261220', '261240', '114800', '251340',
+                '357870']
     data = [(u, names.query(f'itemcode == "{u}"').iloc[0,1],
-             get_score(u)) for u in universe]
-    return pd.DataFrame(data, columns=['종목코드', '이름', '점수'])
+             *get_score(u)) for u in universe]
+    return pd.DataFrame(data, columns=['종목코드', '이름', '점수', '변동성'])
 
-def get_score(code, risk=0.01):
-    # periods = [5, 8, 13, 21, 34]
-    periods = [8, 13, 21, 34, 55]
+def get_score(code):
+    periods = [3, 5, 8, 13, 21]
     data = fdr.DataReader(code)
     close = data.Close
-    scores = [close.rolling(p).mean().iloc[-1] < close.iloc[-1] for p in periods]
+    scores = [close.rolling(p).apply(lambda x: x.iloc[-1] / x.iloc[0]).iloc[-1] for p in periods]
     concat = lambda x, y, z: pd.concat([x, y], axis=1).apply(z, axis=1)
     tr = concat(data.High, data.Close.shift(1), max)\
          - concat(data.Low, data.Close.shift(1), min)
     aatr = tr.ewm(max(periods)).mean().iloc[-1] / close.iloc[-1]
-    risk_control = min(1, risk / aatr)
-    return int(sum(scores) / len(periods) * risk_control * 1000) / 1000
+    return sum(scores) / len(periods), aatr
